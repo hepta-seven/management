@@ -1,0 +1,38 @@
+.table-zoom-style {
+    overflow: auto;
+    margin: 0;
+    height: 500px
+}
+
+th {
+    white-space: nowrap;
+}
+
+.table-zoom-style td {
+    max-width: 250px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+tr,th{
+    text-align: center;
+}
+textarea {
+    resize: none;
+}
+
+.all-paging {
+    float: right;
+    /*margin-top: -60px;*/
+}
+
+.all-paging input {
+    padding: 7px 0 7px 0;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+}

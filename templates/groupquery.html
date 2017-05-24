@@ -1,0 +1,96 @@
+<div>
+    <div class="padding-md">
+        <ul class="breadcrumb">
+            <li><span class="primary-font"><i class="icon-home"></i></span><a> 婚丧事宜申报</a></li>
+            <li>查询统计</li>
+            <li>组合查询</li>
+        </ul>
+    </div>
+    <div class="smart-widget">
+        <div class="smart-widget-header">
+            组合查询
+        </div>
+        <div class="smart-widget-inner">
+            <div class="smart-widget-body">
+                <form class="form-inline no-margin">
+                    <div class="form-group">
+                        申报类型:
+                        <select class="form-control" ng-model="searchParams.eventType">
+                            <option value="0">全部</option>
+                            <option value="1">婚嫁</option>
+                            <option value="2">丧葬</option>
+                        </select>
+                        宴请人数:
+                        <select class="form-control" ng-model="peopleCount">
+                            <option value="0">全部</option>
+                            <option value="1">0~50</option>
+                            <option value="2">50~100</option>
+                            <option value="3">100~150</option>
+                            <option value="4">150~200</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-success" ng-click="query()">查询</button>
+                    <br/><br/>
+                    <div class="form-group">
+                        申报时间:
+                        <input type="date" class="form-control" ng-model="searchParams.eventCreateTimeFrom">
+                        至
+                        <input type="date" class="form-control" ng-model="searchParams.eventCreateTimeTo">
+                        <br/><br/>
+                        宴请时间:
+                        <input type="date" class="form-control" ng-model="searchParams.eventTimeFrom">
+                        至
+                        <input type="date" class="form-control" ng-model="searchParams.eventTimeTo">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="smart-widget-body x-grid-view x-fit-item x-grid-view-default x-unselectable table-zoom-style">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>申报人:</th>
+                    <th>部门</th>
+                    <th>类型</th>
+                    <th>人数</th>
+                    <th>申报时间</th>
+                    <th>宴请时间</th>
+                    <th>状态</th>
+                    <th>批示意见</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="groupqueryList in demoLists.name | paging:currentPage*listsPerPage | limitTo:listsPerPage">
+                    <td ng-bind="$index+1"></td>
+                    <td ng-bind="groupqueryList.staff"></td>
+                    <td ng-bind="groupqueryList.staffOrgName"></td>
+                    <td ng-bind="groupqueryList.eventType"></td>
+                    <td ng-bind="groupqueryList.peopleCount"></td>
+                    <td ng-bind="groupqueryList.createTime"></td>
+                    <td ng-bind="groupqueryList.eventDate"></td>
+                    <td ng-bind="groupqueryList.auditStatus|auditStatusFilter"></td>
+                    <td ng-bind="groupqueryList.auditContent"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="smart-widget-body ng-scope all-paging">
+            <form class="form-inline no-margin" role="form" name="myForm" ng-submit="submitForm(myForm.$valid)">
+                <div class="btn-group">
+                    <a class="btn btn-default" ng-class="{true:'disabled',false:' '}[currentPage==0]"
+                       ng-click="prevPage()"> &lt; </a>
+                    <input type="number" ng-model="showCurrentPage" class="btn btn-default" min="1"
+                           max="{{pages}}">
+                    <button class="btn btn-default"
+                            ng-disabled="myForm.$invalid"
+                            ng-click="goToPage()">跳转
+                    </button>
+                    <a class="btn btn-default" ng-class="{true:'disabled',false:' '}[currentPage+1==pages]"
+                       ng-click="nextPage()"> &gt; </a>
+                    <a class="btn btn-default" disabled>页：{{currentPage+1}}/{{pages}}&nbsp;&nbsp;|&nbsp;&nbsp;共{{dataNum}}条</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

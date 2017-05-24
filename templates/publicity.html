@@ -1,0 +1,281 @@
+<div>
+    <div class="padding-md">
+        <ul class="breadcrumb">
+            <li><span class="primary-font"><i class="icon-home"></i></span><a> 婚丧事宜申报</a></li>
+            <li>申报管理</li>
+            <li>公示</li>
+        </ul>
+    </div>
+    <div class="smart-widget">
+        <div class="smart-widget-header">
+            公示
+        </div>
+        <div class="smart-widget-inner">
+            <div class="smart-widget-body">
+                <form class="form-inline no-margin">
+                    <div class="form-group">
+                        <input type="text" ng-model="applicant" class="form-control" placeholder="申报人">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" ng-model="selectstatus">
+                            <option value="1">已公示</option>
+                            <option value="-1">未公示</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-success" ng-click="searchApproval()">查询</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="smart-widget-body x-grid-view x-fit-item x-grid-view-default x-unselectable table-zoom-style">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th ng-click="col='staff';desc=!desc">申报人:</th>
+                    <th ng-click="col='orgName';desc=!desc">部门</th>
+                    <th ng-click="col='eventType';desc=!desc">类型</th>
+                    <th ng-click="col='peopleCount';desc=!desc">人数</th>
+                    <th ng-click="col='creatTime';desc=!desc">申报时间</th>
+                    <th ng-click="col='eventTmie';desc=!desc">宴请时间</th>
+                    <th ng-click="col='status';desc=!desc">状态</th>
+                    <!--<th>状态</th>-->
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="approvalList in getApprovalList |orderBy:col:desc"
+                    ng-dblclick="viewData(approvalList.id)">
+                    <td ng-bind="($index+1)+((showItemNum-1)*10)"></td>
+                    <td ng-bind="approvalList.staff"></td>
+                    <td ng-bind="approvalList.staffOrgName"></td>
+                    <td ng-bind="approvalList.eventType"></td>
+                    <td ng-bind="approvalList.peopleCount"></td>
+                    <td ng-bind="approvalList.createTime"></td>
+                    <td ng-bind="approvalList.eventDate"></td>
+                    <td ng-bind="showbulletinstatus"></td>
+                    <td>
+                        <a class="btn btn-primary btn-xs" data-toggle="modal"
+                           data-target="#exampleModal" ng-click="startContent(approvalList.id,1)">公示内容</a>
+                        <a class="btn btn-danger btn-xs" data-toggle="modal"
+                           data-target="#exampleModalRes" ng-click="startResult(approvalList.id,2)">公示结果</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--分页-->
+        <div class="smart-widget-body ng-scope all-paging">
+            <form class="form-inline no-margin" role="form" name="myForm" ng-submit="submitForm(myForm.$valid)">
+                <div class="btn-group">
+                    <a class="btn btn-default" ng-class="{true:'disabled',false:' '}[getpublicityPaging.page==1]"
+                       ng-click="previousPage()"> &lt; </a>
+                    <input type="number" ng-model="getpublicityPaging.page" class="btn btn-default "
+                           min="1"
+                           max={{totalPageNum}}>
+                    <button class="btn btn-default"
+                            ng-disabled="myForm.$invalid"
+                            ng-click="selectPage()">跳转
+                    </button>
+                    <a class="btn btn-default"
+                       ng-class="{true:'disabled',false:' '}[showItemNum>=totalPageNum]"
+                       ng-click="nextPage()"> &gt; </a>
+                    <pre class="btn btn-default" disabled>页：{{showItemNum}}/{{totalPageNum}}&nbsp;&nbsp;|&nbsp;&nbsp;共{{totalItemNum}}条</pre>
+                </div>
+            </form>
+        </div>
+        <!--分页-->
+    </div>
+</div>
+<!-- Small modal -->
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Open modal for @mdo-->
+<!--</button>-->
+
+<!--公示内容模态框-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalLabel">公示内容</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">内容:</label>
+                        <textarea class="form-control" id="message-text" ng-model="contentInfo.content"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="content-file" class="control-label">附件:</label>
+                        <!--<input type="file" class="file col-lg-6 col-md-6 col-sm-6"-->
+                        <!--ng-model="declareInfo.attachmentFileCode">-->
+                        <!---->
+                        <div class="file">
+                            <input class="form-control" type="file" ngf-select ng-model="selectFile" name="file"
+                                   id="content-file"
+                                   ngf-max-size="2MB"
+                                   ngf-model-invalid="errorFile">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">附件路径:</label>
+                            <input class="form-control" ng-model="contentInfo.attachmentPath" disabled></input>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="contentIt(selectFile)" data-dismiss="modal">提交
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--公示结果模态框-->
+<div class="modal fade" id="exampleModalRes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalLabel1">公示结果</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div>
+                        <select class="form-control" ng-model="resultInfo.status">
+                            <option value=1>通过</option>
+                            <option value=2>有异议</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">内容:</label>
+                        <textarea class="form-control" id="message-text1" ng-model="resultInfo.content"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="result-file" class="control-label">附件:</label>
+                        <!--<input type="file" class="file col-lg-6 col-md-6 col-sm-6"-->
+                        <!--ng-model="declareInfo.attachmentFileCode">-->
+                        <!---->
+                        <div class="file">
+                            <input class="form-control" type="file" ngf-select ng-model="selectFile" name="file"
+                                   id="result-file"
+                                   ngf-max-size="2MB"
+                                   ngf-model-invalid="errorFile">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">附件路径:</label>
+                            <input class="form-control" ng-model="resultInfo.attachmentPath" disabled></input>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="resultIt(selectFile)" data-dismiss="modal">提交
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--双击详情模态框-->
+<div class="modal fade bs-example-modal-md" id="exampleModal1" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">申报详情</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label">申报人:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.staff" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">与申报人关系:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.staffRelationShip"
+                                   disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">政治面貌:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.staffPoliticalStatus"
+                                   disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">单位职务:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.staffJob" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">配偶:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.staffSpouse" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">联系电话:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.staffPhone" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">操办事项:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.eventType" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">操办次数:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.eventCount" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">操办地点:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.location" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">操办桌数:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.tableCount" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">参加人数:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.peopleCount" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">邀请范围:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.peopleRange" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">用车数量:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.carCount" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">用车来源:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.carSource" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">所属部门:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.staffOrg.name" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">本人承诺:</label>
+                            <textarea class="form-control" cols="30" rows="5" ng-model="viewDataDetails.selfPromise"
+                                      disabled></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">承诺人:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.promisePeople" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">邀请名单:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.peopleNameAttachmentPath"
+                                   disabled>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

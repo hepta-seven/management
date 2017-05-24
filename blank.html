@@ -1,0 +1,215 @@
+<body class="overflow-hidden">
+<div class="wrapper preload">
+    <header class="top-nav">
+        <div class="top-nav-inner">
+            <div class="nav-header">
+                <button type="button" class="navbar-toggle pull-left sidebar-toggle" id="sidebarToggleSM">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                
+                <ul class="nav-notification pull-right">
+                    <li>
+                        <a class="dropdown-toggle" data-toggle="dropdown"><i
+                                class="fa fa-cog fa-lg"></i></a>
+                        <span class="badge badge-danger bounceIn">1</span>
+                        <ul class="dropdown-menu dropdown-sm pull-right">
+                            <li class="user-avatar">
+                                <img src="images/profile/admin.png" alt="" class="img-circle">
+                                <div class="user-content">
+                                    <h5 class="no-m-bottom"
+                                        ng-bind="loginfomation.user.organization.name+loginfomation.user.name">John
+                                        Doe</h5>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#" ng-click="logout()">Log Out</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <a class="brand">
+                    <i class="fa fa-list-alt"></i><span class="brand-name">临汾责任制监督系统</span>
+                </a>
+            </div>
+            <div class="nav-container">
+                <button type="button" class="navbar-toggle pull-left sidebar-toggle" id="sidebarToggleLG">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="pull-right m-right-sm">
+                    <div class="user-block hidden-xs">
+                        <a id="userToggle" data-toggle="dropdown">
+                            <img src="images/profile/admin.png" alt=""
+                                 class="img-circle inline-block user-profile-pic">
+                            <div class="user-detail inline-block">
+                                <span ng-bind="loginfomation.user.organization.name"></span>
+                                <span ng-bind="loginfomation.user.name"></span>
+                                
+                                <i class="fa fa-angle-down"></i>
+                            </div>
+                        </a>
+                        <div class="panel border dropdown-menu user-panel">
+                            <div class="panel-body paddingTB-sm">
+                                <ul>
+                                    <li>
+                                        <a class="btn btn-xs">
+                                            <i class="fa fa-power-off fa-lg"></i><span
+                                                class="m-left-xs" ng-click="logout()">Log Out</span>
+                                        </a>
+                                    </li>
+                                
+                                </ul>
+                            </div>
+                        </div>
+                        <span>&nbsp;&nbsp;&nbsp;</span>
+                    </div>
+                </div>
+            </div>
+        </div><!-- ./top-nav-inner -->
+    </header>
+    <aside class="sidebar-menu fixed">
+        <div class="sidebar-inner scrollable-sidebar">
+            <div class="main-menu">
+                <ul class="accordion">
+                    <li class="menu-header">
+                        Main Menu
+                    </li>
+                    <li class="openable bg-palette2 open">
+                        <a ng-show="rolePermissionInfo[0].isHavePermission">
+									<span class="menu-content block">
+										<span class="menu-icon"><i class="block fa fa-desktop fa-lg"></i></span>
+										<span class="text m-left-sm">婚丧事宜申报</span>
+										<span class="submenu-icon"></span>
+									</span>
+                            <span class="menu-content-hover block">Menu</span>
+                        </a>
+                        <ul class="submenu">
+                            <li class="openable open">
+                                <a>
+                                    <span class="submenu-label"
+                                    >申报管理</span>
+                                    <span class="submenu-icon"></span>
+                                </a>
+                                <ul class="submenu third-level">
+                                    <li ng-show="rolePermissionInfo[4].isHavePermission"><a
+                                            href="#/dashboard/declare"><span class="submenu-label">申报</span></a></li>
+                                    <li ng-show="rolePermissionInfo[5].isHavePermission"><a
+                                            href="#/dashboard/approval"><span class="submenu-label">审批</span></a></li>
+                                    <li ng-show="rolePermissionInfo[6].isHavePermission"><a
+                                            href="#/dashboard/publicity"><span class="submenu-label">公示</span></a></li>
+                                    <li ng-show="rolePermissionInfo[7].isHavePermission"><a
+                                            href="#/dashboard/supervise"><span class="submenu-label">现场监督</span></a>
+                                    </li>
+                                    <li class="openable" ng-show="rolePermissionInfo[8].isHavePermission">
+                                        <a href="#">
+                                            <span class="submenu-label">查询统计</span>
+                                            <span class="submenu-icon"></span>
+                                        </a>
+                                        <ul class="submenu fourth-level">
+                                            <li><a href="#/dashboard/precisequery"><span
+                                                    class="submenu-label">精确查询</span></a></li>
+                                            <li><a href="#/dashboard/groupquery"><span class="submenu-label">组合查询</span></a>
+                                            </li>
+                                            <li><a href="#/dashboard/statistics"><span class="submenu-label">数量统计</span></a>
+                                            </li>
+                                        
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="openable"
+                                ng-show="rolePermissionInfo[12].isHavePermission||rolePermissionInfo[13].isHavePermission">
+                                <a>
+                                    <span class="submenu-label">责任追究</span>
+                                    <span class="submenu-icon"></span>
+                                </a>
+                                <ul class="submenu third-level">
+                                    <li ng-show="rolePermissionInfo[12].isHavePermission">
+                                        <a href="#/dashboard/publicnotification">
+                                            <span class="submenu-label">公开通报</span>
+                                        </a>
+                                    </li>
+                                    <li ng-show="rolePermissionInfo[13].isHavePermission">
+                                        <a href="#/dashboard/disciplinepunish">
+                                            <span class="submenu-label">纪律处分</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="openable bg-palette4" ng-show="rolePermissionInfo[3].isHavePermission">
+                        <a>
+                            <span class="menu-content block">
+										<span class="menu-icon"><i class="block fa fa-list fa-lg"></i></span>
+										<span class="text m-left-sm">系统设置</span>
+										<span class="submenu-icon"></span>
+									</span>
+                            <span class="menu-content-hover block">UI Kits</span>
+                        </a>
+                        <ul class="submenu">
+                            <li ng-show="rolePermissionInfo[31].isHavePermission"><a href="#/dashboard/usermanage"><span
+                                    class="submenu-label">用户管理</span></a></li>
+                            <li ng-show="rolePermissionInfo[33].isHavePermission"><a href="#/dashboard/rolemanage"><span
+                                    class="submenu-label">角色管理</span></a></li>
+                            <!--<li><a href="#/dashboard/organizationmanage"><span class="submenu-label">组织列表</span></a>-->
+                            <!--</li>-->
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="sidebar-fix-bottom clearfix">
+                <div class="user-dropdown dropup pull-left">
+                    <a href="#" class="dropdwon-toggle font-18" data-toggle="dropdown"><i
+                            class="ion-person-add"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="inbox.html">
+                                Inbox
+                                <span class="badge badge-danger bounceIn animation-delay2 pull-right">1</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                Notification
+                                <span class="badge badge-purple bounceIn animation-delay3 pull-right">2</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="sidebarRight-toggle">
+                                Message
+                                <span class="badge badge-success bounceIn animation-delay4 pull-right">7</span>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">Setting</a>
+                        </li>
+                    </ul>
+                </div>
+                <a href="lockscreen.html" class="pull-right font-18"><i class="ion-log-out"></i></a>
+            </div>
+        </div><!-- sidebar-inner -->
+    </aside>
+    
+    <div class="main-container">
+        <div class="padding-md">
+            <ui-view name="mainContent">
+                <div class="jumbotron text-center">
+                    <h2>临汾经济技术开发区党风廉政建设责任制监督系统</h2>
+                    <h3><span ng-bind="loginfo.user.username"></span>欢迎回来!</h3>
+                </div>
+            </ui-view>
+        </div><!-- /main-container -->
+    </div><!-- /wrapper -->
+    
+    <a href="#" class="scroll-to-top hidden-print"><i class="fa fa-chevron-up fa-lg"></i></a>
+</div>
+</body>
+

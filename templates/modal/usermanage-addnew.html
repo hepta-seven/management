@@ -1,0 +1,45 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true" ng-click="cancel()">&times;</span>
+        </button>
+        <h4 class="modal-title">添加用户</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="control-label">用户名:</label>
+            <input type="text" class="form-control" ng-model="newUserInfo.username">
+        </div>
+        <div class="form-group">
+            <label class="control-label">姓名:</label>
+            <input type="text" class="form-control" ng-model="newUserInfo.name">
+        </div>
+        <div class="form-group">
+            <label class="control-label">部门:</label>
+            <select class="form-control" ng-model="newUserInfo.orgId"
+                    ng-options="showOrgList.id as showOrgList.name for showOrgList in orgList.children">
+            
+            </select>
+            <span>{{selectOrg}}</span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">密码:</label>
+            <input type="password" class="form-control" ng-model="newUserInfo.password">
+        </div>
+        <div class="form-group">
+            <label class="control-label">确认密码:</label>
+            <input type="password" class="form-control" ng-model="password">
+        </div>
+        <span ng-show="newUserInfo.password!=password">*两次密码输入不一致</span>
+        <div class="form-group">
+            <label class="control-label">角色:</label>
+            <select class="form-control" ng-model="newUserInfo.roleId"
+                    ng-options="showRoleList.id as showRoleList.name for showRoleList in roleList">
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-primary" ng-click="ok()">确认</button>
+    </div>
+</div>

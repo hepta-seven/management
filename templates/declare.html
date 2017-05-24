@@ -1,0 +1,219 @@
+<div>
+    <div class="padding-md">
+        <ul class="breadcrumb">
+            <li><span class="primary-font"><i class="icon-home"></i></span><a href="index.html"> 婚丧事宜申报</a></li>
+            <li>申报管理</li>
+            <li>申报</li>
+        </ul>
+    </div>
+    <div class="smart-widget">
+        <div class="smart-widget-header">
+            申报
+        </div>
+        <div class="smart-widget-inner">
+            <div class="smart-widget-body">
+                <form class="form-inline no-margin" role="form" name="myForm" ng-submit="submitForm(myForm.$valid)"
+                      novalidate>
+                    <div class="row">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6"
+                             ng-class="{ 'has-success':myForm.staff.$dirty&&myForm.staff.$valid,'has-error':myForm.staff.$dirty&&!myForm.staff.$valid,' ':!myForm.staff.$dirty}">
+                            <label class="col-lg-3 col-md-4 col-sm-6 control-label">申报人:</label>
+                            <input type="text" name="staff" class="col-lg-3 col-md-4 col-sm-6 form-control"
+                                   placeholder="姓名" ng-maxlength="5"
+                                   ng-model="declareInfo.staff" required>
+                            <span class="glyphicon form-control-feedback"
+                                  ng-class="{true:'glyphicon-ok',false:'glyphicon-remove'}[myForm.staff.$dirty&&myForm.staff.$valid]"
+                                  ng-show="myForm.staff.$dirty"></span>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                            <label class="col-lg-3 col-md-4 col-sm-6 control-label">与申报人关系:</label>
+                            <select class="col-lg-3 col-md-4 col-sm-6 form-control"
+                                    ng-model="declareInfo.staffRelationship">
+                                <option value=1>本人</option>
+                                <option value=2>直系亲属</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6"
+                             ng-class="{ 'has-success':myForm.staffPoliticalStatus.$dirty&&myForm.staffPoliticalStatus.$valid,'has-error':myForm.staffPoliticalStatus.$dirty&&!myForm.staffPoliticalStatus.$valid,' ':!myForm.staffPoliticalStatus.$dirty}">
+                            <label class="col-lg-3 col-md-4 col-sm-6 control-label">政治面貌:</label>
+                            <input type="text" name="staffPoliticalStatus"
+                                   class="col-lg-3 col-md-4 col-sm-6 form-control" placeholder="政治面貌"
+                                   ng-model="declareInfo.staffPoliticalStatus" required>
+                            <span class="glyphicon form-control-feedback"
+                                  ng-class="{true:'glyphicon-ok',false:'glyphicon-remove'}[myForm.staffPoliticalStatus.$dirty&&myForm.staffPoliticalStatus.$valid]"
+                                  ng-show="myForm.staffPoliticalStatus.$dirty"></span>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                            <label class="col-lg-3 col-md-4 col-sm-6 control-label">单位职务:</label>
+                            <select class="col-lg-3 col-md-4 col-sm-6 form-control"
+                                    ng-model="declareInfo.staffJob">
+                                <option value=1>县级党员干部</option>
+                                <option value=2>科级党员干部</option>
+                                <option value=3>社会基层干部</option>
+                                <option value=4>一般工作人员</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6"
+                             ng-class="{ 'has-success':myForm.staffSpouse.$dirty&&myForm.staffSpouse.$valid,'has-error':myForm.staffSpouse.$dirty&&!myForm.staffSpouse.$valid,' ':!myForm.staffSpouse.$dirty}">
+                            <label class="col-lg-3 col-md-4 col-sm-6 control-label">配偶:</label>
+                            <input type="text" name="staffSpouse" class="col-lg-3 col-md-4 col-sm-6 form-control"
+                                   placeholder="姓名" ng-maxlength="5"
+                                   ng-model="declareInfo.staffSpouse" required>
+                            <span class="glyphicon form-control-feedback"
+                                  ng-class="{true:'glyphicon-ok',false:'glyphicon-remove'}[myForm.staffSpouse.$dirty&&myForm.staffSpouse.$valid]"
+                                  ng-show="myForm.staffSpouse.$dirty"></span>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6"
+                             ng-class="{ 'has-success':myForm.staffPhone.$dirty&&myForm.staffPhone.$valid,'has-error':myForm.staffPhone.$dirty&&!myForm.staffPhone.$valid,' ':!myForm.staffPhone.$dirty}">
+                            <label class="col-lg-3 col-md-4 col-sm-6 control-label">联系电话:</label>
+                            <input type="text" name="staffPhone" class="col-lg-3 col-md-4 col-sm-6 form-control"
+                                   ng-minlength="8" ng-maxlength="11"
+                                   ng-model="declareInfo.staffPhone" required>
+                            <span class="glyphicon form-control-feedback"
+                                  ng-class="{true:'glyphicon-ok',false:'glyphicon-remove'}[myForm.staffPhone.$dirty&&myForm.staffPhone.$valid]"
+                                  ng-show="myForm.staffPhone.$dirty"></span>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                            <label class="col-lg-3 col-md-4 col-sm-6 control-label">操办事项:</label>
+                            <select class="col-lg-3 col-md-4 col-sm-6 form-control"
+                                    ng-model="declareInfo.eventType">
+                                <option value=1>婚嫁</option>
+                                <option value=2>丧葬</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6"
+                             ng-class="{ 'has-success':myForm.eventCount.$dirty&&myForm.eventCount.$valid,'has-error':myForm.eventCount.$dirty&&!myForm.eventCount.$valid,' ':!myForm.eventCount.$dirty}">
+                            <label class="col-lg-3 col-md-4 col-sm-6 control-label">操办次数:</label>
+                            <input type="number" name="eventCount" class="col-lg-3 col-md-4 col-sm-6 form-control"
+                                   max="20" min="0"
+                                   ng-model="declareInfo.eventCount" required>
+                            <span class="glyphicon form-control-feedback"
+                                  ng-class="{true:'glyphicon-ok',false:'glyphicon-remove'}[myForm.eventCount.$dirty&&myForm.eventCount.$valid]"
+                                  ng-show="myForm.eventCount.$dirty"></span>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                            <label class="col-lg-3 col-md-4 col-sm-6 control-label">操办时间:</label>
+                            <input type="date" class="col-lg-3 col-md-4 col-sm-6 form-control"
+                                   ng-model="declareInfo.eventDate" required>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6"
+                             ng-class="{ 'has-success':myForm.location.$dirty&&myForm.location.$valid,'has-error':myForm.location.$dirty&&!myForm.location.$valid,' ':!myForm.location.$dirty}">
+                            <label class="col-lg-3 col-md-4 col-sm-6 control-label">操办地点:</label>
+                            <input type="text" name="location" class="col-lg-3 col-md-4 col-sm-6 form-control"
+                                   placeholder="操办地点"
+                                   ng-model="declareInfo.location" required>
+                            <span class="glyphicon form-control-feedback"
+                                  ng-class="{true:'glyphicon-ok',false:'glyphicon-remove'}[myForm.location.$dirty&&myForm.location.$valid]"
+                                  ng-show="myForm.location.$dirty"></span>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6"
+                             ng-class="{ 'has-success':myForm.tableCount.$dirty&&myForm.tableCount.$valid,'has-error':myForm.tableCount.$dirty&&!myForm.tableCount.$valid,' ':!myForm.tableCount.$dirty}">
+                            <label class="col-lg-3 col-md-4 col-sm-6 control-label">操办桌数:</label>
+                            <input type="number" name="tableCount" class="col-lg-3 col-md-4 col-sm-6 form-control"
+                                   placeholder="操办桌数" max="50" min="0"
+                                   ng-model="declareInfo.tableCount" required>
+                            <span class="glyphicon form-control-feedback"
+                                  ng-class="{true:'glyphicon-ok',false:'glyphicon-remove'}[myForm.tableCount.$dirty&&myForm.tableCount.$valid]"
+                                  ng-show="myForm.tableCount.$dirty"></span>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6"
+                             ng-class="{ 'has-success':myForm.peopleCount.$dirty&&myForm.peopleCount.$valid,'has-error':myForm.peopleCount.$dirty&&!myForm.peopleCount.$valid,' ':!myForm.peopleCount.$dirty}">
+                            <label class="col-lg-3 col-md-4 col-sm-6 control-label">参加人数:</label>
+                            <input type="number" name="peopleCount" class="col-lg-3 col-md-4 col-sm-6 form-control"
+                                   placeholder="参加人数" max="50" min="0"
+                                   ng-model="declareInfo.peopleCount" required>
+                            <span class="glyphicon form-control-feedback"
+                                  ng-class="{true:'glyphicon-ok',false:'glyphicon-remove'}[myForm.peopleCount.$dirty&&myForm.peopleCount.$valid]"
+                                  ng-show="myForm.peopleCount.$dirty"></span>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6"
+                             ng-class="{ 'has-success':myForm.peopleRange.$dirty&&myForm.peopleRange.$valid,'has-error':myForm.peopleRange.$dirty&&!myForm.peopleRange.$valid,' ':!myForm.peopleRange.$dirty}">
+                            <label class="col-lg-3 col-md-4 col-sm-6 control-label">邀请范围:</label>
+                            <input type="text" name="peopleRange" class="col-lg-3 col-md-4 col-sm-6 form-control"
+                                   placeholder="邀请范围"
+                                   ng-model="declareInfo.peopleRange" required>
+                            <span class="glyphicon form-control-feedback"
+                                  ng-class="{true:'glyphicon-ok',false:'glyphicon-remove'}[myForm.peopleRange.$dirty&&myForm.peopleRange.$valid]"
+                                  ng-show="myForm.peopleRange.$dirty"></span>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6"
+                             ng-class="{ 'has-success':myForm.carCount.$dirty&&myForm.carCount.$valid,'has-error':myForm.carCount.$dirty&&!myForm.carCount.$valid,' ':!myForm.carCount.$dirty}">
+                            <label class="col-lg-3 col-md-4 col-sm-6 control-label">用车数量:</label>
+                            <input type="number" name="carCount" class="col-lg-3 col-md-4 col-sm-6 form-control"
+                                   placeholder="用车数量" max="50" min="0"
+                                   ng-model="declareInfo.carCount" required>
+                            <span class="glyphicon form-control-feedback"
+                                  ng-class="{true:'glyphicon-ok',false:'glyphicon-remove'}[myForm.carCount.$dirty&&myForm.carCount.$valid]"
+                                  ng-show="myForm.carCount.$dirty"></span>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6"
+                             ng-class="{ 'has-success':myForm.carSource.$dirty&&myForm.carSource.$valid,'has-error':myForm.carSource.$dirty&&!myForm.carSource.$valid,' ':!myForm.carSource.$dirty}">
+                            <label class="col-lg-3 col-md-4 col-sm-6 control-label">用车来源:</label>
+                            <input type="text" name="carSource" class="col-lg-3 col-md-4 col-sm-6 form-control"
+                                   placeholder="用车来源"
+                                   ng-model="declareInfo.carSource" required>
+                            <span class="glyphicon form-control-feedback"
+                                  ng-class="{true:'glyphicon-ok',false:'glyphicon-remove'}[myForm.carSource.$dirty&&myForm.carSource.$valid]"
+                                  ng-show="myForm.carSource.$dirty"></span>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                            <label class="col-lg-3 col-md-4 col-sm-6 control-label">所属部门:</label>
+                            <select class="form-control" ng-model="declareInfo.staffOrgId"
+                                    ng-options="showOrgList.id as showOrgList.name for showOrgList in orgList.children">
+                            </select>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="form-group col-lg-3 col-md-4 col-sm-6">
+                            <label class="col-lg-3 col-md-3 col-sm-3 control-label">宴请名单:</label>
+                            <div class="col-lg-3 col-md-4 col-sm-4">
+                                <input class="form-control" type="file" ngf-select ng-model="selectFile" name="file"
+                                       ngf-max-size="2MB"
+                                       ngf-model-invalid="errorFile">
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label class="col-lg-12 control-label">本人承诺:</label>
+                            <br/> <br/>
+                            <textarea id="hhh" class="col-lg-8 form-control" rows="10" cols='100'
+                                      ng-model="declareInfo.selfPromise"></textarea>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="form-group col-lg-6"
+                             ng-class="{ 'has-success':myForm.promisePeople.$dirty&&myForm.promisePeople.$valid,'has-error':myForm.promisePeople.$dirty&&!myForm.promisePeople.$valid,' ':!myForm.promisePeople.$dirty}">
+                            <label class="col-lg-2 control-label">承诺人:</label>
+                            <input type="text" name="promisePeople" class="col-lg-2 form-control" placeholder="姓名"
+                                   ng-model="declareInfo.promisePeople" required>
+                            <span class="glyphicon form-control-feedback"
+                                  ng-class="{true:'glyphicon-ok',false:'glyphicon-remove'}[myForm.promisePeople.$dirty&&myForm.promisePeople.$valid]"
+                                  ng-show="myForm.promisePeople.$dirty"></span>
+                        </div>
+                    </div>
+                    <div class="m-top-md p-top-sm">
+                        <button type="submit" class="btn btn-primary block" ng-disabled="myForm.$invalid"
+                                ng-click="uploadFiles(selectFile)">确认申报
+                        </button>
+                    </div>
+                    
+                    <!--<span>{{declareInfo.eventDate|date: 'yyyy-MM-dd hh:mm:ss'}}</span>-->
+                    <!--<button type="submit" class="btn btn-sm btn-success">查询</button>-->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

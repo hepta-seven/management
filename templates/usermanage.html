@@ -1,0 +1,184 @@
+<div>
+    <div class="padding-md">
+        <ul class="breadcrumb">
+            <li><span class="primary-font"><i class="icon-home"></i></span><a href="index.html"> 系统设置</a></li>
+            <li>用户管理</li>
+        </ul>
+    </div>
+    <div class="smart-widget">
+        <div class="smart-widget-header">
+            用户管理
+        </div>
+        <div class="smart-widget-inner">
+            <div class="smart-widget-body">
+                <form class="form-inline no-margin">
+                    <button type="button" class="btn btn-sm btn-success" data-toggle="modal"
+                            data-target=".bs-example-modal-lg" ng-click="startCreatNewUser()">添加
+                    </button>
+                    <button type="button" class="btn btn-sm btn-danger" ng-click="openAddModal()">
+                        添加---AngularUIBootstrap模态框
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="smart-widget-body x-grid-view x-fit-item x-grid-view-default x-unselectable table-zoom-style">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>用户名</th>
+                    <th>姓名</th>
+                    <th>部门</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="approvalList in getApprovalList">
+                    <td ng-bind="$index+1"></td>
+                    <td ng-bind="approvalList.username"></td>
+                    <td ng-bind="approvalList.name"></td>
+                    <td ng-bind="approvalList.orgName"></td>
+                    <td>
+                        <a class="btn btn-primary btn-xs" data-toggle="modal"
+                           data-target=".editUser" ng-click="startEditUser(approvalList.id)">修改</a>
+                        <a class="btn btn-danger btn-xs" ng-click="deleteUser(approvalList.id)">删除</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--分页-->
+        <div class="smart-widget-body ng-scope all-paging">
+            <form class="form-inline no-margin" role="form" name="myForm" ng-submit="submitForm(myForm.$valid)">
+                <div class="btn-group">
+                    <a class="btn btn-default" ng-class="{true:'disabled',false:' '}[getUsermanagePaging.page==1]"
+                       ng-click="previousPage()"> &lt; </a>
+                    <input type="number" ng-model="getUsermanagePaging.page" class="btn btn-default "
+                           placeholder="{{getApprovalListPage+1}}"
+                           min="1"
+                           max={{totalPageNum}}>
+                    <button class="btn btn-default"
+                            ng-disabled="myForm.$invalid"
+                            ng-click="selectPage()">跳转
+                    </button>
+                    <a class="btn btn-default"
+                       ng-class="{true:'disabled',false:' '}[showItemNum>=totalPageNum]"
+                       ng-click="nextPage()"> &gt; </a>
+                    <pre class="btn btn-default" disabled>页：{{showItemNum}}/{{totalPageNum}}&nbsp;&nbsp;|&nbsp;&nbsp;共{{totalItemNum}}条</pre>
+                </div>
+            </form>
+        </div>
+        <!--分页-->
+    </div>
+</div>
+
+
+<!-- Small modal -->
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Open modal for @mdo-->
+<!--</button>-->
+
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">添加用户</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label">用户名:</label>
+                    <input type="text" class="form-control" ng-model="newUserInfo.username">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">姓名:</label>
+                    <input type="text" class="form-control" ng-model="newUserInfo.name">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">部门:</label>
+                    <select class="form-control" ng-model="newUserInfo.orgId"
+                            ng-options="showOrgList.id as showOrgList.name for showOrgList in orgList.children">
+                        <!--<option value="根组织">根组织</option>-->
+                    
+                    </select>
+                    <span>{{selectOrg}}</span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">密码:</label>
+                    <input type="password" class="form-control" ng-model="newUserInfo.password">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">确认密码:</label>
+                    <input type="password" class="form-control" ng-model="password">
+                </div>
+                <span ng-show="newUserInfo.password!=password">*两次密码输入不一致</span>
+                <div class="form-group">
+                    <label class="control-label">角色:</label>
+                    <select class="form-control" ng-model="newUserInfo.roleId"
+                            ng-options="showRoleList.id as showRoleList.name for showRoleList in roleList">
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="creatNewUser()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--修改用户信息-->
+<div class="modal fade editUser" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">修改用户</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label">用户名:</label>
+                    <input type="text" class="form-control" ng-model="nowUserInfo.username" disabled>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">姓名:</label>
+                    <input type="text" class="form-control" ng-model="nowUserInfo.name">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">部门:</label>
+                    <select class="form-control" ng-model="nowUserInfo.orgId"
+                            ng-options="showOrgList.id as showOrgList.name for showOrgList in orgList.children">
+                    </select>
+                
+                </div>
+                <div class="form-group">
+                    <label class="control-label">密码:</label>
+                    <input type="password" class="form-control" ng-model="nowUserInfo.password">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">确认密码:</label>
+                    <input type="password" class="form-control" ng-model="password">
+                </div>
+                <span ng-show="nowUserInfo.password!=password">*两次密码输入不一致</span>
+                <div class="form-group">
+                    <label class="control-label">角色:</label>
+                    <select class="form-control" ng-model="nowUserInfo.roleId"
+                            ng-options="showRoleList.id as showRoleList.name for showRoleList in roleList">
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="updateUserInfo()">确认
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Small modal -->
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Open modal for @mdo-->
+<!--</button>-->

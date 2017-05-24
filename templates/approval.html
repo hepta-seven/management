@@ -1,0 +1,216 @@
+<div>
+    <div class="padding-md">
+        <ul class="breadcrumb">
+            <li><span class="primary-font"><i class="icon-home"></i></span><a>婚丧事宜申报</a></li>
+            <li>申报管理</li>
+            <li>审批</li>
+        </ul>
+    </div>
+    <div class="smart-widget">
+        <div class="smart-widget-header">
+            审批
+        </div>
+        <div class="smart-widget-inner">
+            <div class="smart-widget-body ">
+                <form class="form-inline no-margin">
+                    <div class="form-group">
+                        <input type="text" ng-model="applicant" class="form-control" placeholder="申报人">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" ng-model="selectstatus">
+                            <option value="-1">待审核</option>
+                            <option value="1">通过</option>
+                            <option value="2">拒绝</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-success" ng-click="searchApproval()">查询</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="smart-widget-body x-grid-view x-fit-item x-grid-view-default x-unselectable table-zoom-style">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th ng-click="col='staff';desc=!desc">申报人:</th>
+                    <th ng-click="col='orgName';desc=!desc">部门</th>
+                    <th ng-click="col='eventType';desc=!desc">类型</th>
+                    <th ng-click="col='peopleCount';desc=!desc">人数</th>
+                    <th ng-click="col='creatTime';desc=!desc">申报时间</th>
+                    <th ng-click="col='eventTmie';desc=!desc">宴请时间</th>
+                    <th ng-click="col='status';desc=!desc">状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="approvalList in getApprovalList |orderBy:col:desc"
+                    ng-dblclick="viewData(approvalList.id)">
+                    <td ng-bind="($index+1)+((showItemNum-1)*10)"></td>
+                    <td ng-bind="approvalList.staff"></td>
+                    <td ng-bind="approvalList.staffOrgName"></td>
+                    <td ng-bind="approvalList.eventType"></td>
+                    <td ng-bind="approvalList.peopleCount"></td>
+                    <td ng-bind="approvalList.createTime"></td>
+                    <td ng-bind="approvalList.eventDate"></td>
+                    <td ng-bind="approvalList.auditStatus|auditstatus"></td>
+                    <td>
+                        <a class="btn btn-primary btn-xs" data-toggle="modal"
+                           data-target="#exampleModal" ng-click="saveId(approvalList.id,1)">通过</a>
+                        <a class="btn btn-danger btn-xs" data-toggle="modal"
+                           data-target="#exampleModal" ng-click="saveId(approvalList.id,2)">拒绝</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--分页-->
+        <div class="smart-widget-body ng-scope all-paging">
+            <form class="form-inline no-margin" role="form" name="myForm" ng-submit="submitForm(myForm.$valid)">
+                <div class="btn-group">
+                    <a class="btn btn-default" ng-class="{true:'disabled',false:' '}[getApprovalListPaging.page==1]"
+                       ng-click="previousPage()"> &lt; </a>
+                    <input type="number" ng-model="getApprovalListPaging.page" class="btn btn-default "
+                           min="1"
+                           max={{totalPageNum}}>
+                    <button class="btn btn-default"
+                            ng-disabled="myForm.$invalid"
+                            ng-click="selectPage()">跳转
+                    </button>
+                    <a class="btn btn-default"
+                       ng-class="{true:'disabled',false:' '}[showItemNum>=totalPageNum]"
+                       ng-click="nextPage()"> &gt; </a>
+                    <pre class="btn btn-default" disabled>页：{{showItemNum}}/{{totalPageNum}}&nbsp;&nbsp;|&nbsp;&nbsp;共{{totalItemNum}}条</pre>
+                </div>
+            </form>
+        </div>
+        <!--分页-->
+    </div>
+</div>
+<!-- Small modal -->
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Open modal for @mdo-->
+<!--</button>-->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">意见</label>
+                        <textarea class="form-control" id="message-text" ng-model="doContent"></textarea>
+                    
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                <button type="button" class="btn btn-primary" ng-click="doIt()" data-dismiss="modal">提交
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-example-modal-md" id="exampleModal1" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">申报详情</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label">申报人:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.staff" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">与申报人关系:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.staffRelationShip"
+                                   disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">政治面貌:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.staffPoliticalStatus"
+                                   disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">单位职务:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.staffJob" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">配偶:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.staffSpouse" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">联系电话:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.staffPhone" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">操办事项:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.eventType" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">操办次数:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.eventCount" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">操办地点:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.location" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">操办桌数:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.tableCount" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">参加人数:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.peopleCount" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">邀请范围:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.peopleRange" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">用车数量:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.carCount" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">用车来源:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.carSource" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">所属部门:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.staffOrg.name" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">本人承诺:</label>
+                            <textarea class="form-control" cols="30" rows="5" ng-model="viewDataDetails.selfPromise"
+                                      disabled></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">承诺人:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.promisePeople" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">宴请名单:</label>
+                            <input type="text" class="form-control" ng-model="viewDataDetails.peopleNameAttachmentPath"
+                                   disabled>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

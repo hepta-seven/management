@@ -1,0 +1,33 @@
+<div>
+    <div class="padding-md">
+        <ul class="breadcrumb">
+            <li><span class="primary-font"><i class="icon-home"></i></span><a> 婚丧事宜申报</a></li>
+            <li>查询统计</li>
+            <li>数量统计</li>
+        </ul>
+    </div>
+    <div class="smart-widget">
+        <div class="smart-widget-header">
+            数量统计
+        </div>
+        <div class="smart-widget-inner">
+            <div class="smart-widget-body">
+                <form class="form-inline no-margin">
+                    <div class="form-group">
+                        申报时间:
+                        <input type="date" class="form-control" ng-model="searchParams.eventCreateTimeFrom">
+                        至
+                        <input type="date" class="form-control" ng-model="searchParams.eventCreateTimeTo">
+                        <br/><br/>
+                        宴请时间:
+                        <input type="date" class="form-control" ng-model="searchParams.eventTimeFrom">
+                        至
+                        <input type="date" class="form-control" ng-model="searchParams.eventTimeTo">
+                    </div>
+                </form>
+                <button type="submit" class="btn btn-sm btn-success" ng-click="getData()">查询</button>
+            </div>
+        </div>
+    </div>
+    <div id="main" style="height:400px;width: 100%"></div>
+</div>

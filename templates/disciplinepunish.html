@@ -1,0 +1,192 @@
+<div>
+    <div class="padding-md">
+        <ul class="breadcrumb">
+            <li><span class="primary-font"><i class="icon-home"></i></span><a href="index.html"> 婚丧事宜申报</a></li>
+            <li>责任追究</li>
+            <li>纪律处分</li>
+        </ul>
+    </div>
+    <div class="smart-widget">
+        <div class="smart-widget-header">
+            纪律处分
+        </div>
+        <div class="smart-widget-inner">
+            <div class="smart-widget-body">
+                <form class="form-inline no-margin">
+                    <div class="form-group">
+                        <label class="control-label">被通报人:</label>
+                        <input type="text" class="form-control" ng-model="searhName">
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-success"
+                            ng-click="searchInfo()">查询
+                    </button>
+                    <button type="button" class="btn btn-sm btn-warning" data-toggle="modal"
+                            data-target=".addInfo" ng-click="startAdd()">添加
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="smart-widget-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>被通报人:</th>
+                    <th>被通报人部门</th>
+                    <th>标题</th>
+                    <th>时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="mypublicNotificationList in publicNotificationList.result"
+                    ng-dblclick="viewData(mypublicNotificationList.id)">
+                    <td ng-bind="($index+1)+((showItemNum-1)*10)"></td>
+                    <td ng-bind="mypublicNotificationList.staff"></td>
+                    <td ng-bind="mypublicNotificationList.staffOrgName"></td>
+                    <td ng-bind="mypublicNotificationList.title">@karen</td>
+                    <td ng-bind="mypublicNotificationList.createTime">@karen</td>
+                    <td>
+                        <a class="btn btn-primary btn-xs" data-toggle="modal"
+                           data-target=".editInfo" ng-click="startEdit(mypublicNotificationList.id)"
+                           ng-show="rolePermissionInfo[15].isHavePermission">修改</a>
+                        <a class="btn btn-danger btn-xs" ng-click="startDelete(mypublicNotificationList.id)"
+                           ng-show="rolePermissionInfo[15].isHavePermission">删除</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--分页-->
+        <div class="smart-widget-body ng-scope all-paging">
+            <form class="form-inline no-margin" role="form" name="myForm" ng-submit="submitForm(myForm.$valid)">
+                <div class="btn-group">
+                    <a class="btn btn-default" ng-class="{true:'disabled',false:' '}[showItemNum==1]"
+                       ng-click="previousPage()"> &lt; </a>
+                    <input type="number" ng-model="getPublicNotification.page" class="btn btn-default" min="1"
+                           max={{totalPageNum}}>
+                    <button class="btn btn-default"
+                            ng-disabled="myForm.$invalid"
+                            ng-click="selectPage()">跳转
+                    </button>
+                    <a class="btn btn-default" ng-class="{true:'disabled',false:' '}[showItemNum>=totalPageNum]"
+                       ng-click="nextPage()"> &gt; </a>
+                    <a class="btn btn-default" disabled>页：{{showItemNum}}/{{totalPageNum}}&nbsp;&nbsp;|&nbsp;&nbsp;共{{totalItemNum}}条</a>
+                </div>
+            </form>
+        </div>
+        <!--分页-->
+    </div>
+</div>
+
+
+<!--添加通报人模态框-->
+<div class="modal fade addInfo" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">添加通报人</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label">标题:</label>
+                    <input type="text" class="form-control" ng-model="addInfo.title">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">人员:</label>
+                    <input type="text" class="form-control" ng-model="addInfo.staff">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">部门:</label>
+                    <select class="form-control" ng-model="addInfo.staffOrgId"
+                            ng-options="showOrgList.id as showOrgList.name for showOrgList in orgList.children">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">内容:</label>
+                    <textarea class="form-control" cols="30" rows="10" ng-model="addInfo.content"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addPubInfo()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--查看条目模态框-->
+<div class="modal fade viewInfo" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">被通报信息</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label">标题:</label>
+                    <input type="text" class="form-control" ng-model="publicNotificationDetails.title" disabled>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">人员:</label>
+                    <input type="text" class="form-control" ng-model="publicNotificationDetails.staff" disabled>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">部门:</label>
+                    <input type="text" class="form-control" ng-model="publicNotificationDetails.staffOrg.name" disabled>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">内容:</label>
+                    <textarea class="form-control" cols="30" rows="10" ng-model="publicNotificationDetails.content"
+                              disabled></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--修改通报人模态框-->
+<div class="modal fade editInfo" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">被通报信息</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label">标题:</label>
+                    <input type="text" class="form-control" ng-model="publicNotificationDetails.title">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">人员:</label>
+                    <input type="text" class="form-control" ng-model="publicNotificationDetails.staff">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">部门:</label>
+                    <!--<input type="text" class="form-control" ng-model="publicNotificationDetails.staffOrg.name" disabled>-->
+                    <select class="form-control" ng-model="publicNotificationDetails.staffOrg.id"
+                            ng-options="showOrgList.id as showOrgList.name for showOrgList in orgList.children">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">内容:</label>
+                    <textarea class="form-control" cols="30" rows="10"
+                              ng-model="publicNotificationDetails.content"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="updateUserInfo()">确认
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+{
+  "name": "LinFen-Proj",
+  "authors": [
+    "Ramirez <nixin3228036@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "dependencies": {
+    "messenger": "https://github.com/HubSpot/messenger.git#^1.5.0",
+    "echarts": "https://github.com/ecomfe/echarts.git#^3.5.0",
+    "angular": "^1.6.3",
+    "angular-ui-router": "^0.4.2",
+    "bootstrap": "^3.3.7",
+    "ng-file-upload": "^12.2.13",
+    "sweetalert": "^1.1.3",
+    "ng-table": "^4.0.0",
+    "angular-bootstrap": "^2.5.0",
+    "angular-sanitize": "^1.6.4",
+    "angular-animate": "^1.6.4"
+  }
+}
